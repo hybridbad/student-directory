@@ -1,7 +1,19 @@
 @students = []
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first # first argument from the commandline
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quit program
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
@@ -25,14 +37,14 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # get the first name
-  name = gets.chomp
+  name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     #add the student has to the array
     @students << {name: name, cohort: :november}
     puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 end
 
@@ -42,8 +54,21 @@ def print_header
 end
 
 def print_students_list
-  @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  @students.each_with_index do |student, index|
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  end
+end
+
+def search_by_letter
+  puts "What letter do you want to search"
+  letter = STDIN.gets.chomp
+  match = @students.select do |student|
+    student[:name][0].include?(letter.upcase)
+  end
+  match.each_with_index do |student, index|
+    puts "-------------------------------"
+    puts "#{index + 1}. #{student[:name]}"
+    puts "-------------------------------"
   end
 end
 
@@ -57,6 +82,8 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
+  puts "5. Search for students beginning with letter"
+  puts "6. Search for students with name shorter than specified characters"
   puts "9. Exit" # because we will be adding more items
 end
 
@@ -76,6 +103,8 @@ def process(selection)
     save_students
   when "4"
     load_students
+  when "5"
+    search_by_letter
   when "9"
     exit
   else
@@ -86,8 +115,9 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+try_load_students
 interactive_menu

@@ -72,6 +72,20 @@ def search_by_letter
   end
 end
 
+def search_by_length
+  match = []
+  @students.each do |student|
+    if student[:name].length < 12
+      match << student[:name]
+    end
+  end
+  puts "--------------------------------"
+  match.each do |student|
+    puts student
+  end
+  puts "--------------------------------"
+end
+
 def print_footer
   puts "Overall, we have #{@students.count} great students"
   puts "--------------------------------"
@@ -83,7 +97,7 @@ def print_menu
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
   puts "5. Search for students beginning with letter"
-  puts "6. Search for students with name shorter than specified characters"
+  puts "6. Search for students with name shorter than 12 characters"
   puts "9. Exit" # because we will be adding more items
 end
 
@@ -105,6 +119,8 @@ def process(selection)
     load_students
   when "5"
     search_by_letter
+  when "6"
+    search_by_length
   when "9"
     exit
   else

@@ -7,5 +7,10 @@ The student directory script allows you to manage the list of students enrolled 
 ```shell
 ruby directory.rb
 ```
+Once you have saved the directory once you can call the file as an argument instead
+```shell
+ruby directory.rb students.csv
+```
 
-Select option from Interactive menu, students directory should automatically load if it exists in your folder
+
+Select options from Interactive menu to use. Self explanatory!

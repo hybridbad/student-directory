@@ -54,9 +54,9 @@ def print_header
 end
 
 def print_students_list
-  @students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-  end
+    @students.each_with_index do |student, index|
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
 end
 
 def search_by_letter
@@ -102,9 +102,11 @@ def print_menu
 end
 
 def show_students
-  print_header
-  print_students_list
-  print_footer
+  if @students.count >= 1
+    print_header
+    print_students_list
+    print_footer
+  end
 end
 
 def process(selection)

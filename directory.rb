@@ -48,17 +48,6 @@ def input_students
   end
 end
 
-def print_header
-  puts "The students of Villains Academy"
-  puts "--------------------------------"
-end
-
-def print_students_list
-    @students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
-    end
-end
-
 def search_by_letter
   # Search data for name beginning with:
   puts "What letter do you want to search"
@@ -88,9 +77,34 @@ def search_by_length
   puts "--------------------------------"
 end
 
+def print_header
+  puts "The students of Villains Academy"
+  puts "--------------------------------"
+end
+
+def print_students_list
+  stop = false
+  until stop == true do
+    @students.each_with_index do |student, index|
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+    stop = true
+  end 
+end
+
 def print_footer
   puts "Overall, we have #{@students.count} great students"
   puts "--------------------------------"
+end
+
+
+def show_students
+  # Only shows list if number of students is 1 or more
+  if @students.count >= 1
+    print_header
+    print_students_list
+    print_footer
+  end
 end
 
 def print_menu
@@ -101,15 +115,6 @@ def print_menu
   puts "5. Search for students beginning with letter"
   puts "6. Search for students with name shorter than 12 characters"
   puts "9. Exit" # because we will be adding more items
-end
-
-def show_students
-  # Only shows list if number of students is 1 or more
-  if @students.count >= 1
-    print_header
-    print_students_list
-    print_footer
-  end
 end
 
 def process(selection)

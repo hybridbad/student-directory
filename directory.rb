@@ -60,6 +60,7 @@ def print_students_list
 end
 
 def search_by_letter
+  # Search data for name beginning with:
   puts "What letter do you want to search"
   letter = STDIN.gets.chomp
   match = @students.select do |student|
@@ -73,6 +74,7 @@ def search_by_letter
 end
 
 def search_by_length
+  # search for students less than 12 letters
   match = []
   @students.each do |student|
     if student[:name].length < 12
@@ -102,6 +104,7 @@ def print_menu
 end
 
 def show_students
+  # Only shows list if number of students is 1 or more
   if @students.count >= 1
     print_header
     print_students_list

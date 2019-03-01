@@ -83,6 +83,7 @@ def print_header
 end
 
 def print_students_list
+  # prints all students in the array
   stop = false
   until stop == true do
     @students.each_with_index do |student, index|

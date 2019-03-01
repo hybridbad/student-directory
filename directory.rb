@@ -16,7 +16,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
   end
   file.close
 end
@@ -26,7 +26,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:country], student[:superpower]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -41,7 +41,7 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     #add the student has to the array
-    @students << {name: name, cohort: :november}
+    @students << {name: name, cohort: :november, country: :UK, superpower: :Evil}
     puts "Now we have #{@students.count} students"
     # get another name from the user
     name = STDIN.gets.chomp
@@ -87,7 +87,7 @@ def print_students_list
   stop = false
   until stop == true do
     @students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{index + 1}. #{student[:name]}, Country: #{student[:country]}, Superpower: #{student[:superpower]} : (#{student[:cohort]} cohort)"
     end
     stop = true
   end 

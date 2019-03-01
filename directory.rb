@@ -15,7 +15,7 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
+    name, cohort, country, superpower = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
   end
   file.close
@@ -84,13 +84,19 @@ end
 
 def print_students_list
   # prints all students in the array
-  stop = false
-  until stop == true do
-    @students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]}, Country: #{student[:country]}, Superpower: #{student[:superpower]} : (#{student[:cohort]} cohort)"
-    end
-    stop = true
-  end 
+  numbers = 0
+  until @students.length == numbers
+    puts "#{@students[numbers][:name]} Country: #{@students[numbers][:country].to_s}, Power: #{@students[numbers][:superpower].to_s} (#{@students[numbers][:cohort].to_s} cohort)"
+    numbers += 1
+  end
+  # "#{@students[:name]}, Country: #{@students[:country]}, Superpower: #{@students[:superpower]} : (#{@students[:cohort]} cohort)"
+  # stop = false
+  # until stop == true do 
+  #   @students.each_with_index do |student, index|
+  #     puts "#{index + 1}. #{student[:name]}, Country: #{student[:country]}, Superpower: #{student[:superpower]} : (#{student[:cohort]} cohort)"
+  #   end
+  #   stop = true
+  # end 
 end
 
 def print_footer

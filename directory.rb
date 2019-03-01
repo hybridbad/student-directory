@@ -1,9 +1,5 @@
 @students = []
 
-def students_shovel
-  
-end
-
 def try_load_students
   filename = ARGV.first
   filename = "students.csv" if filename.nil?
@@ -101,6 +97,7 @@ def print_header
 end
 
 def list_by_cohort
+  # Ask for search param then pass into each as a condition
   puts 'What Cohort do you want to search for'
   search_cohort = STDIN.gets.chomp.to_sym
   @students.each do |student|
@@ -137,7 +134,14 @@ def show_students
     print_header
     print_students_list
     print_footer
+  else
+    puts "Theres no students in the list!"
   end
+end
+
+def print_source_code
+  # reads currently executed ruby file ($0) and prints source code
+  puts $><<IO.read($0)
 end
 
 def print_menu
@@ -148,6 +152,7 @@ def print_menu
   puts "5. Search for students beginning with letter".center(50, ('-'))
   puts "6. Students less than 12 characters".center(50, ('-'))
   puts "7. List students by cohort".center(50, '-')
+  puts "8. Print my lovely source code".center(50, '-')
   puts "9. Exit".center(50, ('-')) # because we will be adding more items
 end
 
@@ -168,6 +173,8 @@ def process(selection)
     search_by_length
   when "7"
     list_by_cohort
+  when "8"
+    print_source_code
   when "9"
     exit
   else

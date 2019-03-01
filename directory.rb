@@ -1,8 +1,7 @@
 @students = []
 
 def try_load_students
-  filename = ARGV.first
-  filename = "students.csv" if filename.nil?
+  filename = ARGV.shift || "students.csv"
   if File.exists?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -13,8 +12,7 @@ def try_load_students
 end
 
 def load_a_file
-  # clear students array before opening a new file
-  @students = []
+  @students = [] # clear students array before opening a new file
   puts "What file do you want to load?"
   @user_file = STDIN.gets.chomp
 end
@@ -33,8 +31,7 @@ def save_students
   puts "What filename do you want to save it as"
   save_file = STDIN.gets.chomp
   file = File.open("#{save_file}", "w")
-  # iterate over the array of students
-  @students.each do |student|
+  @students.each do |student| # iterate over the array of students
     student_data = [student[:name], student[:cohort], student[:country], student[:superpower]]
     csv_line = student_data.join(",")
     file.puts csv_line
@@ -45,14 +42,12 @@ end
 def input_students
     puts "To finish, just type enter til end"
     puts "Please enter the name of the student"
-    # get input from user
-    name = STDIN.gets.chop
-    # gives default value if empty name
-    name = "I have no name" if name.empty?
+    name = STDIN.gets.chop  # get input from user
+    name = "I have no name" if name.empty? # gives default value if empty name
     puts "Which cohort?"
     cohort = STDIN.gets.delete("\n")
     # gives default value if empty cohort
-    cohort = "I do not exist" if cohort.empty?
+    cohort = "I do not exist" if cohort.empty? # gives default value if empty cohort
   # while the name is not empty, repeat this code
   while !name.empty? do
     #add the student hash to the array
@@ -154,6 +149,7 @@ def process(selection)
   when "4"
     load_a_file
     load_students(@user_file)
+    puts "Loaded #{@students.count} from #{@user_file}" if File.exists?(@user_file)
   when "5"
     search_by_letter
   when "6"

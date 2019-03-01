@@ -1,18 +1,23 @@
 @students = []
 
+def students_shovel
+  
+end
+
 def try_load_students
-  filename = ARGV.first # first argument from the commandline
-  return if filename.nil? # get out of the method if it isn't given
+  filename = ARGV.first
+  filename = "students.csv" if filename.nil?
+  # return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}".center(50)
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist.".center(50)
     exit #quit program
   end
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, country, superpower = line.chomp.split(',')
@@ -23,7 +28,9 @@ end
 
 def save_students
   # open the file for writing
-  file = File.open("students.csv", "w")
+  puts "What filename do you want to save it as"
+  save_file = STDIN.gets.chomp
+  file = File.open("#{save_file}", "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:country], student[:superpower]]
@@ -34,17 +41,26 @@ def save_students
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # get the first name
-  name = STDIN.gets.chomp
+    puts "To finish, just type enter til end"
+    puts "Please enter the name of the student"
+    # get data
+    name = STDIN.gets.chop
+    name = "I have no name" if name.empty?
+    puts "Which cohort?"
+    cohort = STDIN.gets.delete("\n")
+    cohort = "I do not exist" if cohort.empty?
   # while the name is not empty, repeat this code
   while !name.empty? do
-    #add the student has to the array
-    @students << {name: name, cohort: :november, country: :UK, superpower: :Evil}
-    puts "Now we have #{@students.count} students"
+    #add the student hash to the array
+    @students << {name: name, cohort: cohort.to_sym, country: :UK, superpower: :Evil}
+    if @students.count == 1
+      puts "Now we have #{@students.count} student"
+    else
+      puts "Now we have #{@students.count} students"
+    end
     # get another name from the user
     name = STDIN.gets.chomp
+    cohort = STDIN.gets.chomp
   end
 end
 
@@ -56,9 +72,9 @@ def search_by_letter
     student[:name][0].include?(letter.upcase)
   end
   match.each_with_index do |student, index|
-    puts "-------------------------------"
+    puts "-------------------------------".center(50)
     puts "#{index + 1}. #{student[:name]}"
-    puts "-------------------------------"
+    puts "-------------------------------".center(50)
   end
 end
 
@@ -78,8 +94,16 @@ def search_by_length
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "--------------------------------"
+  puts "The students of Villains Academy".center(50)
+  puts "--------------------------------".center(50)
+end
+
+def list_by_cohort
+  puts 'What Cohort do you want to search for'
+  search_cohort = STDIN.gets.chomp.to_sym
+  @students.each do |student|
+    puts student[:name] if student[:cohort] == search_cohort
+  end
 end
 
 def print_students_list
@@ -100,8 +124,8 @@ def print_students_list
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
-  puts "--------------------------------"
+  puts "Overall, we have #{@students.count} great students".center(50)
+  puts "--------------------------------".center(50)
 end
 
 
@@ -115,13 +139,14 @@ def show_students
 end
 
 def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "5. Search for students beginning with letter"
-  puts "6. Search for students with name shorter than 12 characters"
-  puts "9. Exit" # because we will be adding more items
+  puts "1. Input the students".center(50, ('-'))
+  puts "2. Show the students".center(50, ('-'))
+  puts "3. Save the list to a csv".center(50, ('-'))
+  puts "4. Load the list from a csv".center(50, ('-'))
+  puts "5. Search for students beginning with letter".center(50, ('-'))
+  puts "6. Students less than 12 characters".center(50, ('-'))
+  puts "7. List students by cohort".center(50, '-')
+  puts "9. Exit".center(50, ('-')) # because we will be adding more items
 end
 
 def process(selection)
@@ -138,10 +163,12 @@ def process(selection)
     search_by_letter
   when "6"
     search_by_length
+  when "7"
+    list_by_cohort
   when "9"
     exit
   else
-    puts "I don't know what you mean, try again"
+    puts "I don't know what you mean, try again".center(50)
   end
 end
 

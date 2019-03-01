@@ -50,11 +50,13 @@ end
 def input_students
     puts "To finish, just type enter til end"
     puts "Please enter the name of the student"
-    # get data
+    # get input from user
     name = STDIN.gets.chop
+    # gives default value if empty name
     name = "I have no name" if name.empty?
     puts "Which cohort?"
     cohort = STDIN.gets.delete("\n")
+    # gives default value if empty cohort
     cohort = "I do not exist" if cohort.empty?
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -89,15 +91,8 @@ def search_by_length
   # search for students less than 12 letters
   match = []
   @students.each do |student|
-    if student[:name].length < 12
-      match << student[:name]
-    end
+    puts student[:name] if student[:name].length < 12
   end
-  puts "--------------------------------"
-  match.each do |student|
-    puts student
-  end
-  puts "--------------------------------"
 end
 
 def print_header

@@ -17,6 +17,13 @@ def try_load_students
   end
 end
 
+def load_a_file
+  # clear students array before opening a new file
+  @students = []
+  puts "What file do you want to load?"
+  @user_file = STDIN.gets.chomp
+end
+
 def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
@@ -158,7 +165,8 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    load_students
+    load_a_file
+    load_students(@user_file)
   when "5"
     search_by_letter
   when "6"

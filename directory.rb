@@ -3,12 +3,11 @@
 def try_load_students
   filename = ARGV.first
   filename = "students.csv" if filename.nil?
-  # return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}".center(50)
+    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist.".center(50)
+    puts "Sorry, #{filename} doesn't exist."
     exit #quit program
   end
 end
@@ -73,13 +72,8 @@ def search_by_letter
   # Search data for name beginning with:
   puts "What letter do you want to search"
   letter = STDIN.gets.chomp
-  match = @students.select do |student|
-    student[:name][0].include?(letter.upcase)
-  end
-  match.each_with_index do |student, index|
-    puts "-------------------------------".center(50)
-    puts "#{index + 1}. #{student[:name]}"
-    puts "-------------------------------".center(50)
+  @students.each do |student|
+    puts student[:name] if student[:name][0].include?(letter.upcase)
   end
 end
 

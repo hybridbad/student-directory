@@ -69,20 +69,15 @@ def input_students
 end
 
 def search_by_letter
-  # Search data for name beginning with:
+  # Search data for name beginning with letter
   puts "What letter do you want to search"
   letter = STDIN.gets.chomp
-  @students.each do |student|
-    puts student[:name] if student[:name][0].include?(letter.upcase)
-  end
+  @students.each { |student| puts student[:name] if student[:name][0].include?(letter.upcase) }
 end
 
 def search_by_length
   # search for students less than 12 letters
-  match = []
-  @students.each do |student|
-    puts student[:name] if student[:name].length < 12
-  end
+  @students.each { |student| puts student[:name] if student[:name].length < 12 }
 end
 
 def print_header
@@ -94,16 +89,14 @@ def list_by_cohort
   # Ask for search param then pass into each as a condition
   puts 'What Cohort do you want to search for'
   search_cohort = STDIN.gets.chomp.to_sym
-  @students.each do |student|
-    puts student[:name] if student[:cohort] == search_cohort
-  end
+  @students.each { |student| puts student[:name] if student[:cohort] == search_cohort }
 end
 
 def print_students_list
   # prints all students in the array
   numbers = 0
   until @students.length == numbers
-    puts "#{@students[numbers][:name]} Country: #{@students[numbers][:country].to_s}, Power: #{@students[numbers][:superpower].to_s} (#{@students[numbers][:cohort].to_s} cohort)"
+    puts "#{@students[numbers][:name]} | Country: #{@students[numbers][:country].to_s}, Power: #{@students[numbers][:superpower].to_s} (#{@students[numbers][:cohort].to_s} cohort)"
     numbers += 1
   end
   # "#{@students[:name]}, Country: #{@students[:country]}, Superpower: #{@students[:superpower]} : (#{@students[:cohort]} cohort)"
@@ -147,7 +140,7 @@ def print_menu
   puts "6. Students less than 12 characters".center(50, ('-'))
   puts "7. List students by cohort".center(50, '-')
   puts "8. Print my lovely source code".center(50, '-')
-  puts "9. Exit".center(50, ('-')) # because we will be adding more items
+  puts "9. Exit".center(50, ('-')) 
 end
 
 def process(selection)
@@ -172,7 +165,7 @@ def process(selection)
   when "9"
     exit
   else
-    puts "I don't know what you mean, try again".center(50)
+    puts "I don't know what you mean, try again"
   end
 end
 

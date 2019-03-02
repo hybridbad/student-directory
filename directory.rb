@@ -18,12 +18,12 @@ def load_a_file
 end
 
 def load_students(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort, country, superpower = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
+  File.open(filename, 'r') do |f| 
+    f.each_line do |line|
+      name, cohort, country, superpower = line.chomp.split(',')
+      @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
+    end
   end
-  file.close
 end
 
 def save_students
@@ -32,9 +32,7 @@ def save_students
   save_file = STDIN.gets.chomp
   file = File.open("#{save_file}", "w")
   @students.each do |student| # iterate over the array of students
-    student_data = [student[:name], student[:cohort], student[:country], student[:superpower]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    file.puts ([student[:name], student[:cohort], student[:country], student[:superpower]]).join(",")
   end
   file.close
 end

@@ -33,6 +33,10 @@ def save_students
   File.open(save_file, 'w') { |file| @students.each { |student| file.puts ([student[:name], student[:cohort], student[:country], student[:superpower]]).join(",") }
 end
 
+def shovel_hash_in
+  
+end
+
 def input_students
     puts "To finish, just type enter til end"
     puts "Please enter the name of the student"

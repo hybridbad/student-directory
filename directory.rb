@@ -1,4 +1,9 @@
+require 'csv'
 @students = []
+
+def successful_message
+  puts "Operation successful"
+end
 
 def try_load_students
   filename = ARGV.shift || "students.csv"
@@ -17,12 +22,18 @@ def load_a_file
   @user_file = STDIN.gets.chomp
 end
 
+  # File.open(filename, 'r') do |file| # code block opens file then block end closes
+  #   file.each_line do |line|
+  #     name, cohort, country, superpower = line.chomp.split(',')
+  #     @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
+  #   end
+  # end
+
 def load_students(filename)
-  File.open(filename, 'r') do |file| # code block opens file then block end closes
-    file.each_line do |line|
-      name, cohort, country, superpower = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
-    end
+  CSV.foreach(filename) do |row|
+    name, cohort, country, superpower = row
+    @students << {name: name, cohort: cohort.to_sym, 
+      country: country.to_sym, superpower: superpower.to_sym}
   end
 end
 
@@ -30,11 +41,8 @@ def save_students
   # open the file for writing
   puts "What filename do you want to save it as"
   save_file = STDIN.gets.chomp
-  File.open(save_file, 'w') { |file| @students.each { |student| file.puts ([student[:name], student[:cohort], student[:country], student[:superpower]]).join(",") }
-end
-
-def shovel_hash_in
-  
+  CSV.open(save_file, 'wb'){ |csv| @students.each { |student| csv << student.values }}
+  successful_message
 end
 
 def input_students
@@ -59,6 +67,7 @@ def input_students
     name = STDIN.gets.chomp
     cohort = STDIN.gets.chomp
   end
+  successful_message
 end
 
 def search_by_letter
@@ -66,11 +75,13 @@ def search_by_letter
   puts "What letter do you want to search"
   letter = STDIN.gets.chomp
   @students.each { |student| puts student[:name] if student[:name][0].include?(letter.upcase) }
+  successful_message
 end
 
 def search_by_length
   # search for students less than 12 letters
   @students.each { |student| puts student[:name] if student[:name].length < 12 }
+  successful_message
 end
 
 def print_header
@@ -83,6 +94,7 @@ def list_by_cohort
   puts 'What Cohort do you want to search for'
   search_cohort = STDIN.gets.chomp.to_sym
   @students.each { |student| puts student[:name] if student[:cohort] == search_cohort }
+  successful_message
 end
 
 def print_students_list
@@ -100,6 +112,7 @@ def print_students_list
   #   end
   #   stop = true
   # end 
+  successful_message
 end
 
 def print_footer
@@ -117,11 +130,13 @@ def show_students
   else
     puts "Theres no students in the list!"
   end
+  successful_message
 end
 
 def print_source_code
   # reads currently executed ruby file ($0) and prints source code
   puts $><<IO.read($0)
+  successful_message
 end
 
 def print_menu

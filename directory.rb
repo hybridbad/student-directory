@@ -35,7 +35,7 @@ def save_students
   # save students using csv library
   puts "What filename do you want to save it as"
   save_file = STDIN.gets.chomp
-  CSV.open(save_file, 'wb'){ |csv| @students.each { |student| csv << student.values }}
+  CSV.open(save_file, 'a+'){ |csv| @students.each { |student| csv << student.values }}
   successful_message
 end
 

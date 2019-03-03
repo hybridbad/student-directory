@@ -22,14 +22,8 @@ def load_a_file
   @user_file = STDIN.gets.chomp
 end
 
-  # File.open(filename, 'r') do |file| # code block opens file then block end closes
-  #   file.each_line do |line|
-  #     name, cohort, country, superpower = line.chomp.split(',')
-  #     @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
-  #   end
-  # end
-
 def load_students(filename)
+  # load students using csv library
   CSV.foreach(filename) do |row|
     name, cohort, country, superpower = row
     @students << {name: name, cohort: cohort.to_sym, 
@@ -38,12 +32,13 @@ def load_students(filename)
 end
 
 def save_students
-  # open the file for writing
+  # save students using csv library
   puts "What filename do you want to save it as"
   save_file = STDIN.gets.chomp
   CSV.open(save_file, 'wb'){ |csv| @students.each { |student| csv << student.values }}
   successful_message
 end
+
 
 def input_students
     puts "To finish, just type enter til end"
@@ -67,7 +62,6 @@ def input_students
     name = STDIN.gets.chomp
     cohort = STDIN.gets.chomp
   end
-  successful_message
 end
 
 def search_by_letter
@@ -104,14 +98,6 @@ def print_students_list
     puts "#{@students[numbers][:name]} | Country: #{@students[numbers][:country].to_s}, Power: #{@students[numbers][:superpower].to_s} (#{@students[numbers][:cohort].to_s} cohort)"
     numbers += 1
   end
-  # "#{@students[:name]}, Country: #{@students[:country]}, Superpower: #{@students[:superpower]} : (#{@students[:cohort]} cohort)"
-  # stop = false
-  # until stop == true do 
-  #   @students.each_with_index do |student, index|
-  #     puts "#{index + 1}. #{student[:name]}, Country: #{student[:country]}, Superpower: #{student[:superpower]} : (#{student[:cohort]} cohort)"
-  #   end
-  #   stop = true
-  # end 
   successful_message
 end
 

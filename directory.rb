@@ -18,7 +18,7 @@ def load_a_file
 end
 
 def load_students(filename)
-  File.open(filename, 'r') do |f| 
+  File.open(filename, 'r') do |f| # code block opens file then block end closes
     f.each_line do |line|
       name, cohort, country, superpower = line.chomp.split(',')
       @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}

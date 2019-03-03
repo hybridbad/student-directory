@@ -18,8 +18,8 @@ def load_a_file
 end
 
 def load_students(filename)
-  File.open(filename, 'r') do |f| # code block opens file then block end closes
-    f.each_line do |line|
+  File.open(filename, 'r') do |file| # code block opens file then block end closes
+    file.each_line do |line|
       name, cohort, country, superpower = line.chomp.split(',')
       @students << {name: name, cohort: cohort.to_sym, country: country.to_sym, superpower: superpower.to_sym}
     end
@@ -30,11 +30,7 @@ def save_students
   # open the file for writing
   puts "What filename do you want to save it as"
   save_file = STDIN.gets.chomp
-  file = File.open("#{save_file}", "w")
-  @students.each do |student| # iterate over the array of students
-    file.puts ([student[:name], student[:cohort], student[:country], student[:superpower]]).join(",")
-  end
-  file.close
+  File.open(save_file, 'w') { |file| @students.each { |student| file.puts ([student[:name], student[:cohort], student[:country], student[:superpower]]).join(",") }
 end
 
 def input_students
